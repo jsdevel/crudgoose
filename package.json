@@ -1,0 +1,31 @@
+{
+  "name": "crudgoose",
+  "version": "0.0.0",
+  "description": "A CRUD generator for mongoose.",
+  "main": "src/index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "node_modules/.bin/mocha"
+  },
+  "dependencies":{
+    "fs-extra":"",
+    "mongoose":"",
+    "proxyquire":"",
+    "sinon":""
+  },
+  "devDependencies":{
+    "mocha":"",
+    "temp":""
+  },
+  "keywords": [
+    "mongoose",
+    "crud",
+    "generator",
+    "express",
+    "mongo"
+  ],
+  "author": "Joseph Spencer",
+  "license": "Apache2.0"
+}
