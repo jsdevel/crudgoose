@@ -13,32 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-describe("A ModelGatherer", function(){
-    var prequire = require('proxyquire');
-    var sinon    = require('sinon');
-    var fs       = {
-        existsSync:sinon.stub
-    };
-    var mongoose = {
-        model:sinon.stub(),
-        Schema:sinon.stub()
-    };
 
+"use strict";
 
-    it("should expect an existing directory", function(){
+module.exports = findModels;
 
-    });
-
-    it("should expect files in the given directory", function(){
-
-    });
-
-    it("should expect files to expose an instance of mongoose schema", function(){
-
-    });
-
-    it("should be able to provide a model with a 'next' method", function(){
-
-    });
-
-});
+function findModels(){}

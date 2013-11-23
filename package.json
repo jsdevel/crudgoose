@@ -10,6 +10,8 @@
     "test": "node_modules/.bin/mocha"
   },
   "dependencies":{
+    "composites":"",
+    "findup-sync":"",
     "fs-extra":"",
     "mongoose":"",
     "proxyquire":"",
