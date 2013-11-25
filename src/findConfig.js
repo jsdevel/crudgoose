@@ -17,32 +17,53 @@
 "use strict";
 
 module.exports = findConfig;
+findConfig.CONFIG_NOT_FOUND             = 1;
+findConfig.CONFIG_INVALID               = 2;
+findConfig.CONFIG_MISSING_MODEL_PATHS   = 3;
 
 var chalk     = require('chalk');
 var findUp    = require('findup-sync');
 var path      = require('path');
 
 function findConfig(name, process, console){
-    var proposed = path.join("config", name+".json");
-    var config   = findUp(proposed);
+    var proposed     = path.join("config", name+".json");
+    var configPath   = findUp(proposed);
+    var config;
 
-    if(!config){
-        console.log(
-            chalk.red(
-                "Couldn't find "+proposed+" in any parent directory."
-            )
+    if(!configPath){
+        return exit(
+            "Couldn't find "+proposed+" in any parent directory.",
+            findConfig.CONFIG_NOT_FOUND
         );
-        return process.exit(1);
     }
 
     try {
-        return require(config);
+        config = require(configPath);
+
+        if(!Array.isArray(config.models)){
+            return exit(
+                "The config didn't contain 'models' as an array of paths",
+                findConfig.CONFIG_MISSING_MODEL_PATHS
+            );
+        }
+
+        if(!config.models.length){
+            return exit(
+                "The config 'models' was a zero length array",
+                findConfig.CONFIG_MISSING_MODEL_PATHS
+            );
+        }
+
+        return config;
     } catch(e){
-        console.log(
-            chalk.red(
-                "Failed to load "+config+" due to: "+e
-            )
+        return exit(
+            "Failed to load "+configPath+" due to: "+e,
+            findConfig.CONFIG_INVALID
         );
-        return process.exit(2);
+    }
+
+    function exit(msg, code){
+        console.log(chalk.red(msg));
+        return process.exit(code);
     }
 }

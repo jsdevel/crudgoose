@@ -21,30 +21,65 @@ describe("findConfig", function(){
     var path       = require('path');
     var sinon      = require('sinon');
     var findConfig = require('../src/findConfig');
-
-    beforeEach(function(){
-        sinon.stub(process, 'exit');
-        sinon.stub(console, 'log');
-    });
+    var console    = {
+        log:sinon.stub()
+    };
+    var process    = {
+        exit:sinon.stub()
+    };
 
     afterEach(function(){
-        process.exit.restore();
-        console.log.restore();
+        process.exit.reset();
+        console.log.reset();
+    });
+
+    describe("error codes", function(){
+        it("should contain CONFIG_NOT_FOUND", function(){
+            assert(findConfig.CONFIG_NOT_FOUND, 1);
+        });
+
+        it("should contain CONFIG_INVALID", function(){
+            assert(findConfig.CONFIG_INVALID, 2);
+        });
+
+        it("should contain CONFIG_MISSING_MODEL_PATHS", function(){
+            assert(findConfig.CONFIG_MISSING_MODEL_PATHS, 3);
+        });
     });
 
     it("should exit with error code if the config isn't found", function(){
         findConfig("fooasdf"+Date.now(), process, console);
-        sinon.assert.calledWith(process.exit, 1);
+        sinon.assert.calledWith(process.exit, findConfig.CONFIG_NOT_FOUND);
         sinon.assert.calledWith(console.log, sinon.match.string);
     });
 
     it("should exit with error code if the config is invalid", function(){
         findConfig(
-            path.join("..", "test", "fixtures", "invalid-crudgoose"),
+            path.join("..", "test", "fixtures", "config", "invalid-crudgoose"),
             process,
             console
         );
-        sinon.assert.calledWith(process.exit, 2);
+        sinon.assert.calledWith(process.exit, findConfig.CONFIG_INVALID);
+        sinon.assert.calledWith(console.log, sinon.match.string);
+    });
+
+    it("should exit with error code if the config doesn't contain 'models'", function(){
+        findConfig(
+            path.join("..", "test", "fixtures", "config", "missing-models"),
+            process,
+            console
+        );
+        sinon.assert.calledWith(process.exit, findConfig.CONFIG_MISSING_MODEL_PATHS);
+        sinon.assert.calledWith(console.log, sinon.match.string);
+    });
+
+    it("should exit with error code if the config 'models' is empty", function(){
+        findConfig(
+            path.join("..", "test", "fixtures", "config", "empty-models"),
+            process,
+            console
+        );
+        sinon.assert.calledWith(process.exit, findConfig.CONFIG_MISSING_MODEL_PATHS);
         sinon.assert.calledWith(console.log, sinon.match.string);
     });
 
