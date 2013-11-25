@@ -51,8 +51,8 @@ describe("crudgoose", function(){
             sinon.assert.called(extractModels);
         });
 
-        it("should call findConfig", function(){
-            sinon.assert.called(findConfig);
+        it("should call findConfig with 'crudgoose'", function(){
+            sinon.assert.calledWith(findConfig, 'crudgoose', process, console);
         });
 
         it("should call findModels", function(){

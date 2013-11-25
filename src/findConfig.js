@@ -18,4 +18,31 @@
 
 module.exports = findConfig;
 
-function findConfig(){}
+var chalk     = require('chalk');
+var findUp    = require('findup-sync');
+var path      = require('path');
+
+function findConfig(name, process, console){
+    var proposed = path.join("config", name+".json");
+    var config   = findUp(proposed);
+
+    if(!config){
+        console.log(
+            chalk.red(
+                "Couldn't find "+proposed+" in any parent directory."
+            )
+        );
+        return process.exit(1);
+    }
+
+    try {
+        return require(config);
+    } catch(e){
+        console.log(
+            chalk.red(
+                "Failed to load "+config+" due to: "+e
+            )
+        );
+        return process.exit(2);
+    }
+}

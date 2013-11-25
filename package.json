@@ -10,6 +10,7 @@
     "test": "node_modules/.bin/mocha"
   },
   "dependencies":{
+    "chalk":"",
     "composites":"",
     "findup-sync":"",
     "fs-extra":"",
