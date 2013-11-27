@@ -25,10 +25,12 @@ describe("findConfig", function(){
         error:sinon.stub()
     };
     var process    = {
+        chdir:sinon.stub(),
         exit:sinon.stub()
     };
 
     afterEach(function(){
+        process.chdir.reset();
         process.exit.reset();
         console.error.reset();
     });
@@ -86,5 +88,6 @@ describe("findConfig", function(){
     it("should return the config", function(){
         config = findConfig("crudgoose", process, console);
         assert(sinon.match.object.test(config));
+        sinon.assert.called(process.chdir);
     });
 });

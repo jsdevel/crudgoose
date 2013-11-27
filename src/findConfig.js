@@ -53,6 +53,7 @@ function findConfig(name, process, console){
             );
         }
 
+        process.chdir(path.dirname(configPath));
         return config;
     } catch(e){
         return exit(
