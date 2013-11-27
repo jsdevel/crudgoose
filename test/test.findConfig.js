@@ -22,7 +22,7 @@ describe("findConfig", function(){
     var sinon      = require('sinon');
     var findConfig = require('../src/findConfig');
     var console    = {
-        log:sinon.stub()
+        error:sinon.stub()
     };
     var process    = {
         exit:sinon.stub()
@@ -30,7 +30,7 @@ describe("findConfig", function(){
 
     afterEach(function(){
         process.exit.reset();
-        console.log.reset();
+        console.error.reset();
     });
 
     describe("error codes", function(){
@@ -50,7 +50,7 @@ describe("findConfig", function(){
     it("should exit with error code if the config isn't found", function(){
         findConfig("fooasdf"+Date.now(), process, console);
         sinon.assert.calledWith(process.exit, findConfig.CONFIG_NOT_FOUND);
-        sinon.assert.calledWith(console.log, sinon.match.string);
+        sinon.assert.calledWith(console.error, sinon.match.string);
     });
 
     it("should exit with error code if the config is invalid", function(){
@@ -60,7 +60,7 @@ describe("findConfig", function(){
             console
         );
         sinon.assert.calledWith(process.exit, findConfig.CONFIG_INVALID);
-        sinon.assert.calledWith(console.log, sinon.match.string);
+        sinon.assert.calledWith(console.error, sinon.match.string);
     });
 
     it("should exit with error code if the config doesn't contain 'models'", function(){
@@ -70,7 +70,7 @@ describe("findConfig", function(){
             console
         );
         sinon.assert.calledWith(process.exit, findConfig.CONFIG_MISSING_MODEL_PATHS);
-        sinon.assert.calledWith(console.log, sinon.match.string);
+        sinon.assert.calledWith(console.error, sinon.match.string);
     });
 
     it("should exit with error code if the config 'models' is empty", function(){
@@ -80,7 +80,7 @@ describe("findConfig", function(){
             console
         );
         sinon.assert.calledWith(process.exit, findConfig.CONFIG_MISSING_MODEL_PATHS);
-        sinon.assert.calledWith(console.log, sinon.match.string);
+        sinon.assert.calledWith(console.error, sinon.match.string);
     });
 
     it("should return the config", function(){

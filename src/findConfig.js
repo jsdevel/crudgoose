@@ -21,7 +21,6 @@ findConfig.CONFIG_NOT_FOUND             = 1;
 findConfig.CONFIG_INVALID               = 2;
 findConfig.CONFIG_MISSING_MODEL_PATHS   = 3;
 
-var chalk     = require('chalk');
 var findUp    = require('findup-sync');
 var path      = require('path');
 
@@ -63,7 +62,7 @@ function findConfig(name, process, console){
     }
 
     function exit(msg, code){
-        console.log(chalk.red(msg));
+        console.error(msg);
         return process.exit(code);
     }
 }

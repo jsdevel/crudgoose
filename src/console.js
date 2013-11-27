@@ -1,4 +1,4 @@
-/*!
+/*
  * Copyright 2013 Joseph Spencer.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,21 +14,14 @@
  * limitations under the License.
  */
 
-"use strict";
+var chalk = require('chalk');
 
-var console         = require('./console');
-var extractModels   = require('./extractModels');
-var findConfig      = require('./findConfig');
-var findModels      = require('./findModels');
-var generateCrud    = require('./generateCrud');
-var outputModule    = require('./outputModule');
+module.exports = {
+    error:function(msg){
+        log(chalk.red("crudgoose"), msg);
+    }
+};
 
-module.exports = crudgoose;
-
-function crudgoose(){
-    var config     = findConfig('crudgoose', process, console);
-    var modelPaths = findModels(config);
-    var models     = extractModels(config, modelPaths);
-    var crud       = generateCrud(config, models);
-    outputModule(config, crud);
+function log(name, msg){
+    console.log(chalk.bold("[")+name+chalk.bold("]")+" "+msg);
 }

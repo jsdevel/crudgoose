@@ -27,6 +27,7 @@ describe("crudgoose", function(){
 
     //module
     var crudgoose  = prequire('../src/crudgoose', {
+        './console':"_console",
         './extractModels':extractModels,
         './findConfig'   :findConfig,
         './findModels'   :findModels,
@@ -52,7 +53,7 @@ describe("crudgoose", function(){
         });
 
         it("should call findConfig with 'crudgoose'", function(){
-            sinon.assert.calledWith(findConfig, 'crudgoose', process, console);
+            sinon.assert.calledWith(findConfig, 'crudgoose', process, "_console");
         });
 
         it("should call findModels", function(){
