@@ -1,2 +1,2 @@
 #!/usr/bin/env node
-require('../src/crudgoose')();
+require('../src/crudgoose')(process);

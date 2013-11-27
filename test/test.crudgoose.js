@@ -45,7 +45,7 @@ describe("crudgoose", function(){
 
     describe("when run", function(){
         beforeEach(function(){
-            crudgoose();
+            crudgoose("_process");
         });
 
         it("should call extractModels", function(){
@@ -53,7 +53,7 @@ describe("crudgoose", function(){
         });
 
         it("should call findConfig with 'crudgoose'", function(){
-            sinon.assert.calledWith(findConfig, 'crudgoose', process, "_console");
+            sinon.assert.calledWith(findConfig, 'crudgoose', "_process", "_console");
         });
 
         it("should call findModels", function(){
