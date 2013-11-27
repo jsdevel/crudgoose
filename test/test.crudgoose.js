@@ -69,7 +69,7 @@ describe("crudgoose", function(){
         });
 
         it("should pass the output of findConfig to findModels", function(){
-            sinon.assert.calledWith(findModels, "_findConfig");
+            sinon.assert.calledWith(findModels, "_findConfig", "_process", "_console");
         });
 
         it("should pass the output of findConfig and findModels to extractModels", function(){

@@ -27,7 +27,7 @@ module.exports = crudgoose;
 
 function crudgoose(process){
     var config     = findConfig('crudgoose', process, console);
-    var modelPaths = findModels(config);
+    var modelPaths = findModels(config, process, console);
     var models     = extractModels(config, modelPaths);
     var crud       = generateCrud(config, models);
     outputModule(config, crud);

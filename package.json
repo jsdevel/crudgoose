@@ -17,6 +17,8 @@
     "composites":"",
     "findup-sync":"",
     "fs-extra":"",
+    "glob":"",
+    "lodash":"",
     "mongoose":"",
     "proxyquire":"",
     "sinon":""
