@@ -6,6 +6,9 @@
   "directories": {
     "test": "test"
   },
+  "bin":{
+    "./crudgoose":"bin/run.js"
+  },
   "scripts": {
     "test": "node_modules/.bin/mocha"
   },
