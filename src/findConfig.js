@@ -17,9 +17,8 @@
 "use strict";
 
 module.exports = findConfig;
-findConfig.CONFIG_NOT_FOUND             = 1;
-findConfig.CONFIG_INVALID               = 2;
-findConfig.CONFIG_MISSING_MODEL_PATHS   = 3;
+
+var exitCodes  = require('./exitCodes');
 
 var findUp    = require('findup-sync');
 var path      = require('path');
@@ -32,7 +31,7 @@ function findConfig(name, process, console){
     if(!configPath){
         return exit(
             "Couldn't find "+proposed+" in any parent directory.",
-            findConfig.CONFIG_NOT_FOUND
+            exitCodes.CONFIG_NOT_FOUND
         );
     }
 
@@ -42,14 +41,14 @@ function findConfig(name, process, console){
         if(!Array.isArray(config.models)){
             return exit(
                 "The config didn't contain 'models' as an array of paths",
-                findConfig.CONFIG_MISSING_MODEL_PATHS
+                exitCodes.CONFIG_MISSING_MODEL_PATHS
             );
         }
 
         if(!config.models.length){
             return exit(
                 "The config 'models' was a zero length array",
-                findConfig.CONFIG_MISSING_MODEL_PATHS
+                exitCodes.CONFIG_MISSING_MODEL_PATHS
             );
         }
 
@@ -58,7 +57,7 @@ function findConfig(name, process, console){
     } catch(e){
         return exit(
             "Failed to load "+configPath+" due to: "+e,
-            findConfig.CONFIG_INVALID
+            exitCodes.CONFIG_INVALID
         );
     }
 
