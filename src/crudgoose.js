@@ -20,15 +20,27 @@ var console         = require('./console');
 var extractModels   = require('./extractModels');
 var findConfig      = require('./findConfig');
 var findModels      = require('./findModels');
+var getConfig       = require('./getConfig');
 var generateCrud    = require('./generateCrud');
 var outputModule    = require('./outputModule');
+var path            = require('path');
 
 module.exports = crudgoose;
 
 function crudgoose(process){
-    var config     = findConfig('crudgoose', process, console);
-    var modelPaths = findModels(config, process, console);
-    var models     = extractModels(config, modelPaths);
-    var crud       = generateCrud(config, models);
+    var configPath;
+    var config;
+    var modelPaths;
+    var models;
+    var crud;
+
+    configPath = findConfig('crudgoose', process, console);
+    config     = getConfig(configPath, process, console);
+
+    process.chdir(path.dirname(configPath));
+
+    modelPaths = findModels(config, process, console);
+    models     = extractModels(config, modelPaths);
+    crud       = generateCrud(config, models);
     outputModule(config, crud);
 }

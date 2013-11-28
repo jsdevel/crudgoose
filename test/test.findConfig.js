@@ -16,9 +16,6 @@
 
 
 describe("findConfig", function(){
-    var assert     = require('assert');
-    var config;
-    var path       = require('path');
     var sinon      = require('sinon');
     var exitCodes  = require('../src/exitCodes');
     var findConfig = require('../src/findConfig');
@@ -40,41 +37,5 @@ describe("findConfig", function(){
         findConfig("fooasdf"+Date.now(), process, console);
         sinon.assert.calledWith(process.exit, exitCodes.CONFIG_NOT_FOUND);
         sinon.assert.calledWith(console.error, sinon.match.string);
-    });
-
-    it("should exit with error code if the config is invalid", function(){
-        findConfig(
-            path.join("..", "test", "fixtures", "config", "invalid-crudgoose"),
-            process,
-            console
-        );
-        sinon.assert.calledWith(process.exit, exitCodes.CONFIG_INVALID);
-        sinon.assert.calledWith(console.error, sinon.match.string);
-    });
-
-    it("should exit with error code if the config doesn't contain 'models'", function(){
-        findConfig(
-            path.join("..", "test", "fixtures", "config", "missing-models"),
-            process,
-            console
-        );
-        sinon.assert.calledWith(process.exit, exitCodes.CONFIG_MISSING_MODEL_PATHS);
-        sinon.assert.calledWith(console.error, sinon.match.string);
-    });
-
-    it("should exit with error code if the config 'models' is empty", function(){
-        findConfig(
-            path.join("..", "test", "fixtures", "config", "empty-models"),
-            process,
-            console
-        );
-        sinon.assert.calledWith(process.exit, exitCodes.CONFIG_MISSING_MODEL_PATHS);
-        sinon.assert.calledWith(console.error, sinon.match.string);
-    });
-
-    it("should return the config", function(){
-        config = findConfig("crudgoose", process, console);
-        assert(sinon.match.object.test(config));
-        sinon.assert.called(process.chdir);
     });
 });

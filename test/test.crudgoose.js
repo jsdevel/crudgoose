@@ -20,23 +20,34 @@ describe("crudgoose", function(){
     var sinon      = require('sinon');
     //stubs
     var extractModels = sinon.stub().returns("_extractModels");
-    var findConfig    = sinon.stub().returns("_findConfig");
+    var getConfig     = sinon.stub().returns("_getConfig");
+    var findConfig    = sinon.stub().returns("/path/to/config.json");
     var findModels    = sinon.stub().returns("_findModels");
     var generateCrud  = sinon.stub().returns("_generateCrud");
     var outputModule  = sinon.stub().returns("_outputModule");
+    var process       = {
+        chdir:sinon.stub()
+    };
 
     //module
     var crudgoose  = prequire('../src/crudgoose', {
         './console':"_console",
         './extractModels':extractModels,
         './findConfig'   :findConfig,
+        './getConfig'    :getConfig,
         './findModels'   :findModels,
         './generateCrud' :generateCrud,
         './outputModule' :outputModule
     });
 
     afterEach(function(){
+        extractModels.reset();
+        getConfig.reset();
         findConfig.reset();
+        findModels.reset();
+        generateCrud.reset();
+        outputModule.reset();
+        process.chdir.reset();
     });
 
     it("is a function", function(){
@@ -45,43 +56,39 @@ describe("crudgoose", function(){
 
     describe("when run", function(){
         beforeEach(function(){
-            crudgoose("_process");
-        });
-
-        it("should call extractModels", function(){
-            sinon.assert.called(extractModels);
+            crudgoose(process);
         });
 
         it("should call findConfig with 'crudgoose'", function(){
-            sinon.assert.calledWith(findConfig, 'crudgoose', "_process", "_console");
+            sinon.assert.calledWith(findConfig, 'crudgoose', process, "_console");
         });
 
-        it("should call findModels", function(){
-            sinon.assert.called(findModels);
+        it("should call chdir with '/path/to'", function(){
+            sinon.assert.calledWith(process.chdir, '/path/to');
         });
 
-        it("should call generateCrud", function(){
-            sinon.assert.called(generateCrud);
+        it("should pass the output of findConfig to getConfig", function(){
+            sinon.assert.calledWith(getConfig, "/path/to/config.json", process, "_console");
         });
 
-        it("should call outputModule", function(){
-            sinon.assert.called(outputModule);
+        it("should pass the output of findConfig to getConfig", function(){
+            sinon.assert.calledWith(getConfig, "/path/to/config.json", process, "_console");
         });
 
-        it("should pass the output of findConfig to findModels", function(){
-            sinon.assert.calledWith(findModels, "_findConfig", "_process", "_console");
+        it("should pass the output of getConfig to findModels", function(){
+            sinon.assert.calledWith(findModels, "_getConfig", process, "_console");
         });
 
-        it("should pass the output of findConfig and findModels to extractModels", function(){
-            sinon.assert.calledWith(extractModels, "_findConfig", "_findModels");
+        it("should pass the output of getConfig and findModels to extractModels", function(){
+            sinon.assert.calledWith(extractModels, "_getConfig", "_findModels");
         });
 
-        it("should pass the output of findConfig and extractModels to generateCrud", function(){
-            sinon.assert.calledWith(generateCrud, "_findConfig", "_extractModels");
+        it("should pass the output of getConfig and extractModels to generateCrud", function(){
+            sinon.assert.calledWith(generateCrud, "_getConfig", "_extractModels");
         });
 
-        it("should pass the output of findConfig and generateCrud to outputModule", function(){
-            sinon.assert.calledWith(outputModule, "_findConfig", "_generateCrud");
+        it("should pass the output of getConfig and generateCrud to outputModule", function(){
+            sinon.assert.calledWith(outputModule, "_getConfig", "_generateCrud");
         });
     });
 
