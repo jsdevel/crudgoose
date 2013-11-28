@@ -23,46 +23,16 @@ var exitCodes  = require('./exitCodes');
 var findUp    = require('findup-sync');
 var path      = require('path');
 
-function findConfig(name, process, console){
+function findConfig(name, cli){
     var proposed     = path.join("config", name+".json");
     var configPath   = findUp(proposed);
-    var config;
 
     if(!configPath){
-        return exit(
+        return cli.exit(
             "Couldn't find "+proposed+" in any parent directory.",
             exitCodes.CONFIG_NOT_FOUND
         );
     }
 
-    try {
-        config = require(configPath);
-
-        if(!Array.isArray(config.models)){
-            return exit(
-                "The config didn't contain 'models' as an array of paths",
-                exitCodes.CONFIG_MISSING_MODEL_PATHS
-            );
-        }
-
-        if(!config.models.length){
-            return exit(
-                "The config 'models' was a zero length array",
-                exitCodes.CONFIG_MISSING_MODEL_PATHS
-            );
-        }
-
-        process.chdir(path.dirname(configPath));
-        return config;
-    } catch(e){
-        return exit(
-            "Failed to load "+configPath+" due to: "+e,
-            exitCodes.CONFIG_INVALID
-        );
-    }
-
-    function exit(msg, code){
-        console.error(msg);
-        return process.exit(code);
-    }
+    return configPath;
 }

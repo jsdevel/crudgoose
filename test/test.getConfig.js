@@ -22,52 +22,42 @@ describe("getConfig", function(){
     var sinon      = require('sinon');
     var exitCodes  = require('../src/exitCodes');
     var getConfig  = require('../src/getConfig');
-    var console    = {
-        error:sinon.stub()
-    };
-    var process    = {
-        chdir:sinon.stub(),
-        exit:sinon.stub()
-    };
+    var cli;
 
-    afterEach(function(){
-        process.chdir.reset();
-        process.exit.reset();
-        console.error.reset();
+    beforeEach(function(){
+        cli        = {
+            error:sinon.stub(),
+            exit:sinon.stub(),
+            log:sinon.stub()
+        };
     });
 
     it("should exit with error code if the config is invalid", function(){
         getConfig(
             path.join("..", "test", "fixtures", "config", "invalid-crudgoose.json"),
-            process,
-            console
+            cli
         );
-        sinon.assert.calledWith(process.exit, exitCodes.CONFIG_INVALID);
-        sinon.assert.calledWith(console.error, sinon.match.string);
+        sinon.assert.calledWith(cli.exit, sinon.match.string, exitCodes.CONFIG_INVALID);
     });
 
     it("should exit with error code if the config doesn't contain 'models'", function(){
         getConfig(
             path.join("..", "test", "fixtures", "config", "missing-models.json"),
-            process,
-            console
+            cli
         );
-        sinon.assert.calledWith(process.exit, exitCodes.CONFIG_MISSING_MODEL_PATHS);
-        sinon.assert.calledWith(console.error, sinon.match.string);
+        sinon.assert.calledWith(cli.exit, sinon.match.string, exitCodes.CONFIG_MISSING_MODEL_PATHS);
     });
 
     it("should exit with error code if the config 'models' is empty", function(){
         getConfig(
             path.join("..", "test", "fixtures", "config", "empty-models.json"),
-            process,
-            console
+            cli
         );
-        sinon.assert.calledWith(process.exit, exitCodes.CONFIG_MISSING_MODEL_PATHS);
-        sinon.assert.calledWith(console.error, sinon.match.string);
+        sinon.assert.calledWith(cli.exit, sinon.match.string, exitCodes.CONFIG_MISSING_MODEL_PATHS);
     });
 
     it("should return the config", function(){
-        config = getConfig("../config/crudgoose.json", process, console);
+        config = getConfig("../config/crudgoose.json", cli);
         assert(sinon.match.object.test(config));
     });
 });

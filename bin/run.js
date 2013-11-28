@@ -1,2 +1,3 @@
 #!/usr/bin/env node
-require('../src/crudgoose')(process);
+var CLI = require('../src/CLI');
+require('../src/crudgoose')(new CLI(console, process));

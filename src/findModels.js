@@ -22,14 +22,13 @@ var glob      = require('glob');
 var _         = require('lodash');
 var exitCodes = require('./exitCodes');
 
-function findModels(config, process, console){
+function findModels(config, cli){
     var files = _(config.models).map(function(pattern) {
       return glob.sync(pattern);
     }).flatten().uniq().value();
 
     if(!files.length){
-        console.error("No models were found.");
-        process.exit(exitCodes.NO_MODELS_FOUND);
+        cli.exit("No models were found.", exitCodes.NO_MODELS_FOUND);
     }
 
     return files;

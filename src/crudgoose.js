@@ -16,7 +16,6 @@
 
 "use strict";
 
-var console         = require('./console');
 var extractModels   = require('./extractModels');
 var findConfig      = require('./findConfig');
 var findModels      = require('./findModels');
@@ -27,19 +26,19 @@ var path            = require('path');
 
 module.exports = crudgoose;
 
-function crudgoose(process){
+function crudgoose(cli){
     var configPath;
     var config;
     var modelPaths;
     var models;
     var crud;
 
-    configPath = findConfig('crudgoose', process, console);
-    config     = getConfig(configPath, process, console);
+    configPath = findConfig('crudgoose', cli);
+    config     = getConfig(configPath, cli);
 
-    process.chdir(path.dirname(configPath));
+    cli.chdir(path.dirname(configPath));
 
-    modelPaths = findModels(config, process, console);
+    modelPaths = findModels(config, cli);
     models     = extractModels(config, modelPaths);
     crud       = generateCrud(config, models);
     outputModule(config, crud);

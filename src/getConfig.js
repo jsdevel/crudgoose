@@ -20,21 +20,21 @@ module.exports = getConfig;
 
 var exitCodes  = require('./exitCodes');
 
-function getConfig(path, process, console){
+function getConfig(path, cli){
     var config;
 
     try {
         config = require(path);
 
         if(!Array.isArray(config.models)){
-            return exit(
+            return cli.exit(
                 "The config didn't contain 'models' as an array of paths",
                 exitCodes.CONFIG_MISSING_MODEL_PATHS
             );
         }
 
         if(!config.models.length){
-            return exit(
+            return cli.exit(
                 "The config 'models' was a zero length array",
                 exitCodes.CONFIG_MISSING_MODEL_PATHS
             );
@@ -42,14 +42,9 @@ function getConfig(path, process, console){
 
         return config;
     } catch(e){
-        return exit(
+        return cli.exit(
             "Failed to load "+path+" due to: "+e,
             exitCodes.CONFIG_INVALID
         );
-    }
-
-    function exit(msg, code){
-        console.error(msg);
-        return process.exit(code);
     }
 }

@@ -19,23 +19,16 @@ describe("findConfig", function(){
     var sinon      = require('sinon');
     var exitCodes  = require('../src/exitCodes');
     var findConfig = require('../src/findConfig');
-    var console    = {
-        error:sinon.stub()
-    };
-    var process    = {
-        chdir:sinon.stub(),
-        exit:sinon.stub()
-    };
+    var cli;
 
-    afterEach(function(){
-        process.chdir.reset();
-        process.exit.reset();
-        console.error.reset();
+    beforeEach(function(){
+        cli        = {
+            exit:sinon.stub()
+        };
     });
 
     it("should exit with error code if the config isn't found", function(){
-        findConfig("fooasdf"+Date.now(), process, console);
-        sinon.assert.calledWith(process.exit, exitCodes.CONFIG_NOT_FOUND);
-        sinon.assert.calledWith(console.error, sinon.match.string);
+        findConfig("fooasdf"+Date.now(), cli);
+        sinon.assert.calledWith(cli.exit, sinon.match.string, exitCodes.CONFIG_NOT_FOUND);
     });
 });

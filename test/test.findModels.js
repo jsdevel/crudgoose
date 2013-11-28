@@ -20,26 +20,26 @@ describe("findModels", function(){
     var sinon      = require('sinon');
     var exitCodes  = require('../src/exitCodes');
     var findModels = require('../src/findModels');
+    var cli;
 
-    var console    = {
-        error:sinon.stub()
-    };
-    var process    = {
-        exit:sinon.stub()
-    };
+    beforeEach(function(){
+        cli        = {
+            exit:sinon.stub()
+        };
+    });
 
     it("should return all models in a directory", function(){
         var models = findModels({
             models:['test/fixtures/models/**/*.js']
-        }, process, console);
+        }, cli);
         assert.equal(models.length, 3);
     });
 
     it("should exit when no models are found", function(){
         var models = findModels({
             models:['test/fixtures/models/foo/**/*.js']
-        }, process, console);
+        }, cli);
         assert.equal(models.length, 0);
-        sinon.assert.calledWith(process.exit, exitCodes.NO_MODELS_FOUND);
+        sinon.assert.calledWith(cli.exit, sinon.match.string, exitCodes.NO_MODELS_FOUND);
     });
 });

@@ -25,13 +25,12 @@ describe("crudgoose", function(){
     var findModels    = sinon.stub().returns("_findModels");
     var generateCrud  = sinon.stub().returns("_generateCrud");
     var outputModule  = sinon.stub().returns("_outputModule");
-    var process       = {
+    var cli           = {
         chdir:sinon.stub()
     };
 
     //module
     var crudgoose  = prequire('../src/crudgoose', {
-        './console':"_console",
         './extractModels':extractModels,
         './findConfig'   :findConfig,
         './getConfig'    :getConfig,
@@ -47,7 +46,7 @@ describe("crudgoose", function(){
         findModels.reset();
         generateCrud.reset();
         outputModule.reset();
-        process.chdir.reset();
+        cli.chdir.reset();
     });
 
     it("is a function", function(){
@@ -56,27 +55,27 @@ describe("crudgoose", function(){
 
     describe("when run", function(){
         beforeEach(function(){
-            crudgoose(process);
+            crudgoose(cli);
         });
 
         it("should call findConfig with 'crudgoose'", function(){
-            sinon.assert.calledWith(findConfig, 'crudgoose', process, "_console");
+            sinon.assert.calledWith(findConfig, 'crudgoose', cli);
         });
 
         it("should call chdir with '/path/to'", function(){
-            sinon.assert.calledWith(process.chdir, '/path/to');
+            sinon.assert.calledWith(cli.chdir, '/path/to');
         });
 
         it("should pass the output of findConfig to getConfig", function(){
-            sinon.assert.calledWith(getConfig, "/path/to/config.json", process, "_console");
+            sinon.assert.calledWith(getConfig, "/path/to/config.json", cli);
         });
 
         it("should pass the output of findConfig to getConfig", function(){
-            sinon.assert.calledWith(getConfig, "/path/to/config.json", process, "_console");
+            sinon.assert.calledWith(getConfig, "/path/to/config.json", cli);
         });
 
         it("should pass the output of getConfig to findModels", function(){
-            sinon.assert.calledWith(findModels, "_getConfig", process, "_console");
+            sinon.assert.calledWith(findModels, "_getConfig", cli);
         });
 
         it("should pass the output of getConfig and findModels to extractModels", function(){
