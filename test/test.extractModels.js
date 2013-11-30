@@ -55,13 +55,22 @@ describe("extractModels", function(){
     });
 
     it("returns a models object", function(){
-        modelPaths.push(path.resolve(__dirname, "./fixtures/easy-models/Bla.js"));
+        modelPaths.push(
+            path.resolve(__dirname, "./fixtures/easy-models/Bla.js"),
+            path.resolve(__dirname, "./fixtures/easy-models/Cla.js")
+        );
 
         models = act();
 
         assert(sinon.match({
             'Bla':{
                 name:'string'
+            }
+        }).test(models));
+
+        assert(sinon.match({
+            'Cla':{
+                quote:'string'
             }
         }).test(models));
     });
