@@ -39,7 +39,7 @@ function crudgoose(cli){
     cli.chdir(path.dirname(configPath));
 
     modelPaths = findModels(config, cli);
-    models     = extractModels(config, modelPaths, cli);
+    models     = extractModels(modelPaths, cli);
     crud       = generateCrud(config, models);
     outputModule(config, crud);
 }

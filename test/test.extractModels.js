@@ -21,14 +21,12 @@ describe("extractModels", function(){
     var sinon      = require('sinon');
     var exitCodes  = require('../src/exitCodes');
     var extractModels = require('../src/extractModels');
-    var config;
     var modelPaths;
     var models;
     var cli;
 
 
     beforeEach(function(){
-        config     = {};
         modelPaths = [];
         models     = void 0;
         cli        = {
@@ -77,6 +75,6 @@ describe("extractModels", function(){
 
 
     function act(){
-        return extractModels(config, modelPaths, cli);
+        return extractModels(modelPaths, cli);
     }
 });

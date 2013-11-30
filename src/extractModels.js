@@ -22,7 +22,7 @@ var exitCodes  = require('./exitCodes');
 var mongoose   = require('mongoose');
 var sinon      = require('sinon');
 
-function extractModels(config, modelPaths, cli){
+function extractModels(modelPaths, cli){
     var models = {};
     sinon.spy(mongoose, 'model');
     sinon.spy(mongoose, 'Schema');
