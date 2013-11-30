@@ -79,7 +79,7 @@ describe("crudgoose", function(){
         });
 
         it("should pass the output of getConfig and findModels to extractModels", function(){
-            sinon.assert.calledWith(extractModels, "_getConfig", "_findModels");
+            sinon.assert.calledWith(extractModels, "_getConfig", "_findModels", cli);
         });
 
         it("should pass the output of getConfig and extractModels to generateCrud", function(){

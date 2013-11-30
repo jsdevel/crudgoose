@@ -18,4 +18,40 @@
 
 module.exports = extractModels;
 
-function extractModels(){}
+var exitCodes  = require('./exitCodes');
+var mongoose   = require('mongoose');
+var sinon      = require('sinon');
+
+function extractModels(config, modelPaths, cli){
+    var models = {};
+    sinon.spy(mongoose, 'model');
+    sinon.spy(mongoose, 'Schema');
+
+    modelPaths.forEach(function(path){
+        require(path);
+
+        if(!mongoose.Schema.args.length){
+            return cli.exit(
+                "Schema wasn't called in "+path,
+                exitCodes.MISSING_SCHEMA_DEFINITION
+            );
+        }
+
+        if(!mongoose.model.args.length){
+            return cli.exit(
+                "model wasn't called in "+path,
+                exitCodes.MISSING_MODEL
+            );
+        }
+
+        models[mongoose.model.args[0][0]] = mongoose.Schema.args[0][0];
+
+        mongoose.model.reset();
+        mongoose.Schema.reset();
+    });
+
+    mongoose.model.restore();
+    mongoose.Schema.restore();
+
+    return models;
+}

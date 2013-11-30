@@ -1,4 +1,4 @@
-/*!
+/*
  * Copyright 2013 Joseph Spencer.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,12 +14,9 @@
  * limitations under the License.
  */
 
-var i=1;
-module.exports = {
-    CONFIG_NOT_FOUND             : i++,
-    CONFIG_INVALID               : i++,
-    CONFIG_MISSING_MODEL_PATHS   : i++,
-    MISSING_MODEL                : i++,
-    MISSING_SCHEMA_DEFINITION    : i++,
-    NO_MODELS_FOUND              : i++
-};
+var mongoose = require('mongoose');
+var Schema   = mongoose.Schema;
+
+var Bla      = new Schema({
+    name:String
+});
