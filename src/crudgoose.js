@@ -26,7 +26,7 @@ var path            = require('path');
 
 module.exports = crudgoose;
 
-function crudgoose(cli){
+function crudgoose(cli, compositeFactory){
     var configPath;
     var config;
     var modelPaths;
@@ -40,6 +40,6 @@ function crudgoose(cli){
 
     modelPaths = findModels(config, cli);
     models     = extractModels(modelPaths, cli);
-    crud       = generateCrud(config, models);
+    crud       = generateCrud(config, models, compositeFactory);
     outputModule(config, crud);
 }

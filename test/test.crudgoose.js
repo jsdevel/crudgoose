@@ -15,19 +15,20 @@
  */
 
 describe("crudgoose", function(){
-    var assert     = require('assert');
-    var prequire   = require('proxyquire');
-    var sinon      = require('sinon');
+    var assert           = require('assert');
+    var prequire         = require('proxyquire');
+    var sinon            = require('sinon');
     //stubs
-    var extractModels = sinon.stub().returns("_extractModels");
-    var getConfig     = sinon.stub().returns("_getConfig");
-    var findConfig    = sinon.stub().returns("/path/to/config.json");
-    var findModels    = sinon.stub().returns("_findModels");
-    var generateCrud  = sinon.stub().returns("_generateCrud");
-    var outputModule  = sinon.stub().returns("_outputModule");
-    var cli           = {
+    var extractModels    = sinon.stub().returns("_extractModels");
+    var getConfig        = sinon.stub().returns("_getConfig");
+    var findConfig       = sinon.stub().returns("/path/to/config.json");
+    var findModels       = sinon.stub().returns("_findModels");
+    var generateCrud     = sinon.stub().returns("_generateCrud");
+    var outputModule     = sinon.stub().returns("_outputModule");
+    var cli              = {
         chdir:sinon.stub()
     };
+    var compositeFactory = {};
 
     //module
     var crudgoose  = prequire('../src/crudgoose', {
@@ -55,7 +56,7 @@ describe("crudgoose", function(){
 
     describe("when run", function(){
         beforeEach(function(){
-            crudgoose(cli);
+            crudgoose(cli, compositeFactory);
         });
 
         it("should call findConfig with 'crudgoose'", function(){
@@ -79,7 +80,7 @@ describe("crudgoose", function(){
         });
 
         it("should pass the output of getConfig and extractModels to generateCrud", function(){
-            sinon.assert.calledWith(generateCrud, "_getConfig", "_extractModels");
+            sinon.assert.calledWith(generateCrud, "_getConfig", "_extractModels", compositeFactory);
         });
 
         it("should pass the output of getConfig and generateCrud to outputModule", function(){
