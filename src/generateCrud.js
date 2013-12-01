@@ -16,6 +16,12 @@
 
 "use strict";
 
-module.exports = generateCrud;
+module.exports     = generateCrud;
 
-function generateCrud(){}
+var generateModule = require('./generators/module');
+
+function generateCrud(config, models, compositeFactory){
+    var module = compositeFactory.createModule();
+
+    generateModule(module);
+}
