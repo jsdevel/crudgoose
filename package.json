@@ -10,7 +10,7 @@
     "./crudgoose":"bin/run.js"
   },
   "scripts": {
-    "test": "node_modules/.bin/mocha"
+    "test": "node_modules/.bin/mocha --no-tty-animation -w test/generators/**/* test/*.js"
   },
   "dependencies":{
     "chalk":"",

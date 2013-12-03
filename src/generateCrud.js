@@ -18,10 +18,11 @@
 
 module.exports     = generateCrud;
 
-var generateModule = require('./generators/module');
+var generateModule = require('./generators/generateModule');
 
 function generateCrud(config, models, compositeFactory){
     var module = compositeFactory.createModule();
+    var routes = compositeFactory.createRoutes();
 
-    generateModule(module);
+    generateModule(module, routes);
 }

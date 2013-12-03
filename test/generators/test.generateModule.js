@@ -1,4 +1,4 @@
-/*
+/*!
  * Copyright 2013 Joseph Spencer.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,27 +14,28 @@
  * limitations under the License.
  */
 
-
-describe("generateCrud", function(){
+describe("generateModule", function(){
     var assert           = require('assert');
-    var prequire         = require('proxyquire');
+    var fs               = require('fs');
+    var path             = require('path');
     var sinon            = require('sinon');
-    var compositeFactory = {
-        createModule:sinon.stub().returns("_createModule"),
-        createRoutes:sinon.stub().returns("_createRoutes")
-    };
-    var generateModule   = sinon.stub();
-    var generateCrud     = prequire('../src/generateCrud', {
-        './generators/generateModule':generateModule
-    });
-    var config           = {};
-    var models           = {};
+    var CompositeString  = require('composites').CompositeString;
+    var generateModule   = require('../../src/generators/generateModule');
+    var module;
+
+    //expected code
+    var generatedShell   = fs.readFileSync(
+        path.resolve(__dirname, '../fixtures/generators/generateModule/shell.js'),
+        'utf8'
+    );
 
     beforeEach(function(){
-        generateCrud(config, models, compositeFactory);
+        module = new CompositeString;
     });
 
-    it("should pass a module composite to generateModule", function(){
-        sinon.assert.calledWith(generateModule, "_createModule", "_createRoutes");
+    it("creates a basic module", function(){
+        generateModule(module, '//routes');
+
+        assert.equal(module.toString(), generatedShell);
     });
 });

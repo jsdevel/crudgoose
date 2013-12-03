@@ -33,5 +33,12 @@ describe("CompositeFactory", function(){
                 assert(factory.createModule() instanceof CompositeString);
             });
         });
+
+        describe("#createRoutes", function(){
+            it("returns an instanceof CompositeString", function(){
+                assert(factory.createRoutes() instanceof CompositeString);
+            });
+        });
+
     });
 });

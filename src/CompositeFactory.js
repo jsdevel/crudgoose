@@ -17,6 +17,7 @@
 module.exports      = CompositeFactory;
 
 CompositeFactory.prototype.createModule=createModule;
+CompositeFactory.prototype.createRoutes=createRoutes;
 
 var composites      = require('composites');
 var CompositeString = composites.CompositeString;
@@ -24,5 +25,9 @@ var CompositeString = composites.CompositeString;
 function CompositeFactory(){}
 
 function createModule(){
+    return new CompositeString;
+}
+
+function createRoutes(){
     return new CompositeString;
 }
