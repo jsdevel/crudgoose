@@ -17,6 +17,7 @@
 
 describe("extractModels", function(){
     var assert     = require('assert');
+    var mongoose   = require('mongoose');
     var path       = require('path');
     var sinon      = require('sinon');
     var exitCodes  = require('../src/exitCodes');
@@ -27,6 +28,8 @@ describe("extractModels", function(){
 
 
     beforeEach(function(){
+        mongoose.models       = {};
+        mongoose.modelSchemas = {};
         modelPaths = [];
         models     = void 0;
         cli        = {
