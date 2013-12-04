@@ -18,6 +18,11 @@ module.exports      = CompositeFactory;
 
 CompositeFactory.prototype.createModule=createModule;
 CompositeFactory.prototype.createRoutes=createRoutes;
+CompositeFactory.prototype.createReadPlural=createReadPlural;
+CompositeFactory.prototype.createRead=createRead;
+CompositeFactory.prototype.createCreate=createCreate;
+CompositeFactory.prototype.createUpdate=createUpdate;
+CompositeFactory.prototype.createDelete=createDelete;
 
 var composites      = require('composites');
 var CompositeString = composites.CompositeString;
@@ -29,5 +34,25 @@ function createModule(){
 }
 
 function createRoutes(){
+    return new CompositeString;
+}
+
+function createReadPlural(){
+    return new CompositeString;
+}
+
+function createRead(){
+    return new CompositeString;
+}
+
+function createCreate(){
+    return new CompositeString;
+}
+
+function createUpdate(){
+    return new CompositeString;
+}
+
+function createDelete(){
     return new CompositeString;
 }

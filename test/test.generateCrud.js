@@ -16,19 +16,21 @@
 
 
 describe("generateCrud", function(){
-    var assert           = require('assert');
-    var prequire         = require('proxyquire');
-    var sinon            = require('sinon');
-    var compositeFactory = {
+    var assert             = require('assert');
+    var prequire           = require('proxyquire');
+    var sinon              = require('sinon');
+    var compositeFactory   = {
         createModule:sinon.stub().returns("_createModule"),
         createRoutes:sinon.stub().returns("_createRoutes")
     };
-    var generateModule   = sinon.stub();
-    var generateCrud     = prequire('../src/generateCrud', {
-        './generators/generateModule':generateModule
+    var generateModule     = sinon.stub();
+    var generateRoutes     = sinon.stub();
+    var generateCrud       = prequire('../src/generateCrud', {
+        './generators/generateModule':generateModule,
+        './generators/generateRoutes':generateRoutes
     });
-    var config           = {};
-    var models           = {};
+    var config             = {};
+    var models             = {};
 
     beforeEach(function(){
         generateCrud(config, models, compositeFactory);
@@ -36,5 +38,15 @@ describe("generateCrud", function(){
 
     it("should pass a module composite to generateModule", function(){
         sinon.assert.calledWith(generateModule, "_createModule", "_createRoutes");
+    });
+
+    it("should pass a routes composite to generateRoutes", function(){
+        sinon.assert.calledWith(
+            generateRoutes,
+            "_createRoutes",
+            config,
+            models,
+            compositeFactory
+        );
     });
 });

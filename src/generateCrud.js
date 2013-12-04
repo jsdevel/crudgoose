@@ -19,10 +19,12 @@
 module.exports     = generateCrud;
 
 var generateModule = require('./generators/generateModule');
+var generateRoutes = require('./generators/generateRoutes');
 
 function generateCrud(config, models, compositeFactory){
     var module = compositeFactory.createModule();
     var routes = compositeFactory.createRoutes();
 
     generateModule(module, routes);
+    generateRoutes(routes, config, models, compositeFactory);
 }

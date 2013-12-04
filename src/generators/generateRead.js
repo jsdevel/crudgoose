@@ -1,4 +1,4 @@
-/*
+/* 
  * Copyright 2013 Joseph Spencer.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -15,15 +15,3 @@
  */
 
 
-module.exports = generateModule;
-
-function generateModule(module, routes){
-    module.push(
-'var mongoose         = require(\'mongoose\');\n',
-'var ObjectId         = mongoose.Types.ObjectId;\n',
-'\n',
-'module.exports.addTo = function(app){\n',
-routes, '\n',
-'};'
-    );
-}

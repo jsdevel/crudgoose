@@ -39,6 +39,30 @@ describe("CompositeFactory", function(){
                 assert(factory.createRoutes() instanceof CompositeString);
             });
         });
-
+        describe("#createReadPlural", function(){
+            it("returns an instanceof CompositeString", function(){
+                assert(factory.createReadPlural() instanceof CompositeString);
+            });
+        });
+        describe("#createRead", function(){
+            it("returns an instanceof CompositeString", function(){
+                assert(factory.createRead() instanceof CompositeString);
+            });
+        });
+        describe("#createCreate", function(){
+            it("returns an instanceof CompositeString", function(){
+                assert(factory.createCreate() instanceof CompositeString);
+            });
+        });
+        describe("#createUpdate", function(){
+            it("returns an instanceof CompositeString", function(){
+                assert(factory.createUpdate() instanceof CompositeString);
+            });
+        });
+        describe("#createDelete", function(){
+            it("returns an instanceof CompositeString", function(){
+                assert(factory.createDelete() instanceof CompositeString);
+            });
+        });
     });
 });
