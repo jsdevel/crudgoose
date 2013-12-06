@@ -41,9 +41,15 @@ function generateRoutes(
     routes.push(update, "\n");
     routes.push(_delete, "\n");
 
-    generateReadPlural(readPlural, config, models, compositeFactory);
-    generateRead(read, config, models, compositeFactory);
-    generateCreate(create, config, models, compositeFactory);
-    generateUpdate(update, config, models, compositeFactory);
-    generateDelete(_delete, config, models, compositeFactory);
+    [
+        [generateReadPlural, readPlural],
+        [generateRead, read],
+        [generateCreate, create],
+        [generateUpdate, update],
+        [generateDelete, _delete]
+    ].forEach(function(pair){
+        var generate  = pair[0];
+        var composite = pair[1];
+        generate(composite, config, models, compositeFactory);
+    });
 }
