@@ -16,15 +16,18 @@
 
 "use strict";
 
-module.exports     = generateCrud;
+module.exports        = generateCrud;
 
-var generateModule = require('./generators/generateModule');
-var generateRoutes = require('./generators/generateRoutes');
+var generateModelVars = require('./generators/generateModelVars');
+var generateModule    = require('./generators/generateModule');
+var generateRoutes    = require('./generators/generateRoutes');
 
 function generateCrud(config, models, compositeFactory){
-    var module = compositeFactory.createModule();
-    var routes = compositeFactory.createRoutes();
+    var module    = compositeFactory.createModule();
+    var modelVars = compositeFactory.createModelVars();
+    var routes    = compositeFactory.createRoutes();
 
-    generateModule(module, routes);
+    generateModule(module, modelVars, routes);
+    generateModelVars(modelVars, config, models);
     generateRoutes(routes, config, models, compositeFactory);
 }

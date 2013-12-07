@@ -20,12 +20,15 @@ describe("generateCrud", function(){
     var prequire           = require('proxyquire');
     var sinon              = require('sinon');
     var compositeFactory   = {
+        createModelVars:sinon.stub().returns("_createModelVars"),
         createModule:sinon.stub().returns("_createModule"),
         createRoutes:sinon.stub().returns("_createRoutes")
     };
+    var generateModelVars  = sinon.stub();
     var generateModule     = sinon.stub();
     var generateRoutes     = sinon.stub();
     var generateCrud       = prequire('../src/generateCrud', {
+        './generators/generateModelVars':generateModelVars,
         './generators/generateModule':generateModule,
         './generators/generateRoutes':generateRoutes
     });
@@ -37,7 +40,21 @@ describe("generateCrud", function(){
     });
 
     it("should pass a module composite to generateModule", function(){
-        sinon.assert.calledWith(generateModule, "_createModule", "_createRoutes");
+        sinon.assert.calledWith(
+            generateModule,
+            "_createModule",
+            "_createModelVars",
+            "_createRoutes"
+        );
+    });
+
+    it("should pass a vars composite to generateModelVars", function(){
+        sinon.assert.calledWith(
+            generateModelVars,
+            "_createModelVars",
+            config,
+            models
+        );
     });
 
     it("should pass a routes composite to generateRoutes", function(){

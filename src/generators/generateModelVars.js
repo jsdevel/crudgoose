@@ -15,16 +15,11 @@
  */
 
 
-module.exports = generateModule;
+module.exports = generateModelVars;
 
-function generateModule(module, vars, routes){
-    module.push(
-'var mongoose         = require(\'mongoose\');\n',
-'var ObjectId         = mongoose.Types.ObjectId;\n',
-'\n',
-'module.exports.addTo = function(app){\n',
-vars, '\n',
-routes, '\n',
-'};'
-    );
+function generateModelVars(modelVars, config, models){
+    var model;
+    for(model in models){
+        modelVars.push("  var ", model, " = mongoose.model('", model, "');\n");
+    }
 }

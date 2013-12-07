@@ -34,7 +34,7 @@ describe("generateModule", function(){
     });
 
     it("creates a basic module", function(){
-        generateModule(module, '//routes');
+        generateModule(module, '//vars', '//routes');
 
         assert.equal(module.toString(), generatedShell);
     });
