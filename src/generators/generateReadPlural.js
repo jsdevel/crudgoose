@@ -14,9 +14,10 @@
  * limitations under the License.
  */
 
-module.exports = generateReadPlural;
+module.exports    = generateReadPlural;
 
-var pluralize = require('../pluralize');
+var generateQuery = require('./generateQuery');
+var pluralize     = require('../pluralize');
 
 function generateReadPlural(readPlural, config, models, compositeFactory) {
   var model;
@@ -26,6 +27,7 @@ function generateReadPlural(readPlural, config, models, compositeFactory) {
   for (model in models) {
     plural = pluralize(config, model);
     query = compositeFactory.createQuery();
+    generateQuery(config, query);
     readPlural.push(
       "  app.get('/", plural, "', function(req, res, next){\n",
       "    var query = {};\n",
@@ -35,6 +37,6 @@ function generateReadPlural(readPlural, config, models, compositeFactory) {
       "      res.json(", plural, ");\n",
       "    });\n",
       "  });\n"
-      );
+    );
   }
 }
