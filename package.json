@@ -18,6 +18,7 @@
     "findup-sync":"",
     "fs-extra":"",
     "glob":"",
+    "inflection":"",
     "lodash":"",
     "mongoose":"",
     "proxyquire":"",

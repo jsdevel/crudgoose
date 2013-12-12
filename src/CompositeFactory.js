@@ -21,6 +21,7 @@ CompositeFactory.prototype.createRoutes=createRoutes;
 CompositeFactory.prototype.createReadPlural=createReadPlural;
 CompositeFactory.prototype.createRead=createRead;
 CompositeFactory.prototype.createCreate=createCreate;
+CompositeFactory.prototype.createQuery=createQuery;
 CompositeFactory.prototype.createUpdate=createUpdate;
 CompositeFactory.prototype.createDelete=createDelete;
 
@@ -46,6 +47,10 @@ function createRead(){
 }
 
 function createCreate(){
+    return new CompositeString;
+}
+
+function createQuery(){
     return new CompositeString;
 }
 

@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright 2013 Joseph Spencer.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,4 +14,27 @@
  * limitations under the License.
  */
 
+module.exports = generateReadPlural;
 
+var pluralize = require('../pluralize');
+
+function generateReadPlural(readPlural, config, models, compositeFactory) {
+  var model;
+  var plural;
+  var query;
+
+  for (model in models) {
+    plural = pluralize(config, model);
+    query = compositeFactory.createQuery();
+    readPlural.push(
+      "  app.get('/", plural, "', function(req, res, next){\n",
+      "    var query = {};\n",
+      "    ", query, '\n',
+      "    ", model, ".find(query, function(err, ", plural, "){\n",
+      "      if(err)return next(err);\n",
+      "      res.json(", plural, ");\n",
+      "    });\n",
+      "  });\n"
+      );
+  }
+}

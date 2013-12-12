@@ -18,7 +18,6 @@ describe("CompositeFactory", function(){
     var assert           = require('assert');
     var composites       = require('composites');
     var CompositeString  = composites.CompositeString;
-    var sinon            = require('sinon');
     var CompositeFactory = require('../src/CompositeFactory');
 
     describe("instance", function(){
@@ -39,26 +38,37 @@ describe("CompositeFactory", function(){
                 assert(factory.createRoutes() instanceof CompositeString);
             });
         });
+
         describe("#createReadPlural", function(){
             it("returns an instanceof CompositeString", function(){
                 assert(factory.createReadPlural() instanceof CompositeString);
             });
         });
+
         describe("#createRead", function(){
             it("returns an instanceof CompositeString", function(){
                 assert(factory.createRead() instanceof CompositeString);
             });
         });
+
         describe("#createCreate", function(){
             it("returns an instanceof CompositeString", function(){
                 assert(factory.createCreate() instanceof CompositeString);
             });
         });
+
+        describe("#createQuery", function(){
+            it("returns an instanceof CompositeString", function(){
+                assert(factory.createQuery() instanceof CompositeString);
+            });
+        });
+
         describe("#createUpdate", function(){
             it("returns an instanceof CompositeString", function(){
                 assert(factory.createUpdate() instanceof CompositeString);
             });
         });
+
         describe("#createDelete", function(){
             it("returns an instanceof CompositeString", function(){
                 assert(factory.createDelete() instanceof CompositeString);

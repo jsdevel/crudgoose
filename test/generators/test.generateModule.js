@@ -25,7 +25,7 @@ describe("generateModule", function(){
 
     //expected code
     var generatedShell   = fs.readFileSync(
-        path.resolve(__dirname, '../fixtures/generators/generateModule/shell.js'),
+        path.resolve(__dirname, '../fixtures/generators/module.js'),
         'utf8'
     );
 
