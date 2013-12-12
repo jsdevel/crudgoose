@@ -1,3 +1,11 @@
 {
-    "models":["./path"]
+    "models":["./path"],
+    "routes":{
+      "prefix":"/v1"
+    },
+    "params":{
+      "required":[
+        {"name":"username", "source":"req.user"}
+      ]
+    }
 }

@@ -22,6 +22,7 @@ var pluralize     = require('../pluralize');
 function generateReadPlural(readPlural, config, models, compositeFactory) {
   var model;
   var plural;
+  var prefix = config.routes && config.routes.prefix || "";
   var query;
 
   for (model in models) {
@@ -29,7 +30,7 @@ function generateReadPlural(readPlural, config, models, compositeFactory) {
     query = compositeFactory.createQuery();
     generateQuery(config, query);
     readPlural.push(
-      "  app.get('/", plural, "', function(req, res, next){\n",
+      "  app.get('", prefix, "/", plural, "', function(req, res, next){\n",
       "    var query = {};\n",
       "    ", query, '\n',
       "    ", model, ".find(query, function(err, ", plural, "){\n",

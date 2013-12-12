@@ -18,11 +18,13 @@ describe("generateReadPlural", function() {
     var assert = require('assert');
     var fs = require('fs');
     var path = require('path');
+    var prequire = require('proxyquire');
     var sinon = require('sinon');
+    var CompositeString = require('composites').CompositeString;
+
     var generateQuery = sinon.stub();
     var pluralize = sinon.stub();
-    var prequire = require('proxyquire');
-    var CompositeString = require('composites').CompositeString;
+
     var generateReadPlural = prequire('../../src/generators/generateReadPlural', {
         './generateQuery':generateQuery,
         '../pluralize': pluralize
@@ -32,7 +34,11 @@ describe("generateReadPlural", function() {
     var models;
     var readPlural;
     var expected = fs.readFileSync(
-      path.resolve(__dirname, "../fixtures/generators/readPlural.js"),
+      path.resolve(__dirname, "../fixtures/generators/readPlural/readPlural.js"),
+      "utf8"
+    );
+    var expectedWithPrefix = fs.readFileSync(
+      path.resolve(__dirname, "../fixtures/generators/readPlural/routePrefix.js"),
       "utf8"
     );
 
@@ -44,17 +50,30 @@ describe("generateReadPlural", function() {
         models = {};
         pluralize.reset();
         readPlural = new CompositeString;
+
+        models['User'] = {};
+        compositeFactory.createQuery.returns('//query');
+        pluralize.withArgs(sinon.match(config), 'User').returns('users');
+    });
+
+    afterEach(function() {
+        generateQuery.reset();
+        pluralize.reset();
     });
 
     it("generates read routes for each model", function() {
-        models['User'] = {};
-        compositeFactory.createQuery.returns('//query');
-        pluralize.withArgs(config, 'User').returns('users');
-
         act();
 
         sinon.assert.calledWith(generateQuery, config, '//query');
         assert.equal(readPlural.toString(), expected);
+    });
+
+    it("adds path config.routes.prefix to the route", function() {
+        config.routes={prefix:'/v3'};
+
+        act();
+
+        assert.equal(readPlural.toString(), expectedWithPrefix);
     });
 
     function act() {
